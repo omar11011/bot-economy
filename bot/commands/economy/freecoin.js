@@ -1,10 +1,10 @@
-const { MessageManager } = require('discord.js')
 const db = require('../../../backend/models')
 
 module.exports = {
     name: 'freecoin',
     aliases: [],
-    async execute(message, client, prefix) {
+    cooldown: 30,
+    async execute(message, client, args, prefix) {
         const user = await db.user.findOne({
             where: {
                 user: message.author.id,

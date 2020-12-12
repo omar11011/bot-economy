@@ -1,3 +1,5 @@
+const Cooldown = require('../functions/cooldown')
+
 module.exports = async (client, message) => {
     const prefix = process.env.PREFIX
 
@@ -12,8 +14,11 @@ module.exports = async (client, message) => {
         else if(message.client.aliases.has(command)) cmdFile = message.client.aliases.get(command)
         else return
 
+        const cooldown = await Cooldown(message, cmdFile)
+        if(!cooldown) return
+
         try {
-            cmdFile.execute(message, client, prefix)
+            cmdFile.execute(message, client, args, prefix)
         } catch(err) {
             console.log(err)
         }
